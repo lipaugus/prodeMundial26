@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Prode Mundial 2026</title>
+    <link rel="stylesheet" href="static/css/style.css"><style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #121212; /* Tu color de fondo oscuro */
+        }
+
+        /* Contenedor principal de la foto */
+        .ralfito-container {
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Imagen cuadrada responsiva adaptada al ancho de pantalla */
+        .ralfito-img {
+            width: 100vw;
+            height: 100vw;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+    <header class="main-header">
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <h1 class="header-title">PRODE</h1>
+    </header>
+
+    <nav class="nav-overlay" id="navOverlay">
+        <ul class="nav-links">
+            <a href="index.html" data-target="matches">PARTIDOS</a>
+            <li><a href="#" data-target="tabla">TABLA</a></li>
+            <li><a href="#" data-target="estadisticas">ESTADÍSTICAS</a></li>
+            <a href="ralfito.html" class="active">RALFITO</a>
+        </ul>
+    </nav>
+
+    <main class="ralfito-container">
+        <img src="static/images/ralfito.jpg" alt="Ralfito" class="ralfito-img">
+    </main>
+
+    <script src="static/js/app.js"></script>
+</body>
+</html>

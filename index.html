@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Prode Mundial 2026</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+    <header class="main-header">
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <h1 class="header-title">PRODE</h1>
+    </header>
+
+    <nav class="nav-overlay" id="navOverlay">
+        <ul class="nav-links">
+            <a href="index.html" data-target="matches" class="active">PARTIDOS</a>
+            <li><a href="#" data-target="tabla">TABLA</a></li>
+            <li><a href="#" data-target="estadisticas">ESTADÍSTICAS</a></li>
+            <a href="ralfito.html">RALFITO</a>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        
+        <section id="view-partidos" class="view-section active-view">
+            <div class="selector-container">
+                <div class="round-selector-wrapper">
+    <button id="prevRoundBtn" class="nav-arrow-btn" type="button" aria-label="Ronda anterior">&larr;</button>
+    
+    <select id="roundSelector">
+        <option value="group-stage-1">Fase de Grupos 1</option>
+        <option value="group-stage-2">Fase de Grupos 2</option>
+        <option value="group-stage-3">Fase de Grupos 3</option>
+        <option value="round-of-32">Dieciseisavos</option>
+        <option value="round-of-16">Octavos de Final</option>
+        <option value="quaterfinals">Cuartos de Final</option>
+        <option value="semifinals">Semifinales</option>
+        <option value="final-3rd-place">Final y 3er Puesto</option>
+    </select>
+
+    <button id="nextRoundBtn" class="nav-arrow-btn" type="button" aria-label="Siguiente ronda">&rarr;</button>
+</div>
+            </div>
+
+            <div class="player-picks-card" id="player-picks-block">
+                <div class="picks-grid">
+                    <div class="pick-col">
+                        <span class="player-owner">Lucas</span>
+                        <span class="chosen-player" id="lucas-player">-</span>
+                        <span class="player-pts" id="lucas-player-pts">0.0 pts</span>
+                    </div>
+                    <div class="pick-col border-left">
+                        <span class="player-owner">Tomás</span>
+                        <span class="chosen-player" id="tomas-player">-</span>
+                        <span class="player-pts" id="tomas-player-pts">0.0 pts</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="matches-container">
+                <p class="loading-text">Cargando partidos...</p>
+            </div>
+        </section>
+
+        <section id="view-tabla" class="view-section">
+            <div class="card-placeholder"><h2>TABLA DE POSICIONES</h2></div>
+        </section>
+        <section id="view-estadisticas" class="view-section">
+            <div class="card-placeholder"><h2>ESTADÍSTICAS</h2></div>
+        </section>
+        <section id="view-ralfito" class="view-section">
+            <div class="card-placeholder"><h2>RALFITO</h2></div>
+        </section>
+
+    </main>
+
+    <script src="static/js/app.js"></script>
+</body>
+</html>
