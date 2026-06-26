@@ -1,6 +1,3 @@
-/**
- * LÓGICA DEL PRODE MUNDIAL 2026 - VERSIÓN MULTIPÁGINA COMPLETA
- */
 
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
@@ -10,9 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 let prodeWorkbook = null;
 let teamCodesMap = {}; 
 
-/**
- * Normalizador de nombres de países para evitar discrepancies de escritura entre hojas
- */
+
 function normalizarNombreEquipo(nombre) {
     if (!nombre) return '';
     let n = String(nombre).trim().toLowerCase();
@@ -22,9 +17,8 @@ function normalizarNombreEquipo(nombre) {
     return n;
 }
 
-/**
- * 1. Control de Navegación Inteligente (Soporta index.html y ralfito.html)
- */
+
+
 function initNavigation() {
     const menuToggle = document.getElementById('menuToggle');
     const navOverlay = document.getElementById('navOverlay');
@@ -35,7 +29,7 @@ function initNavigation() {
     const prevBtn = document.getElementById('prevRoundBtn');
     const nextBtn = document.getElementById('nextRoundBtn');
 
-    // Control seguro del menú desplegable móvil (solo si existe en la página actual)
+    
     if (menuToggle && navOverlay) {
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('open');
@@ -43,7 +37,7 @@ function initNavigation() {
         });
     }
 
-    // Identificamos con precisión matemática en qué página estamos parados
+    
     const path = window.location.pathname;
     const estaEnIndex = path.endsWith('index.html') || path.endsWith('/') || !path.includes('.html');
 
@@ -51,11 +45,10 @@ function initNavigation() {
         link.addEventListener('click', (e) => {
             const target = link.getAttribute('data-target');
             
-            // Regla de Oro: Solo interceptamos con SPA si estamos en index y el enlace pide una sección local
             if (estaEnIndex && target) {
                 const targetSection = document.getElementById(`view-${target}`);
                 if (targetSection) {
-                    e.preventDefault(); // Detiene la recarga nativa de index.html
+                    e.preventDefault();
                     
                     navLinks.forEach(l => l.classList.remove('active'));
                     link.classList.add('active');
@@ -67,19 +60,18 @@ function initNavigation() {
                     targetSection.classList.add('active-view');
                 }
             }
-            // Si no se cumple la condición (ej: vas a ralfito.html o estás saliendo de él), 
-            // el navegador ejecuta su comportamiento estándar y cambia de página de forma limpia.
+            
         });
     });
 
-    // Control manual seguro del selector de rondas
+    
     if (roundSelector) {
         roundSelector.addEventListener('change', (e) => {
             renderizarRonda(e.target.value);
         });
     }
 
-    // Control seguro de Flecha Izquierda
+    
     if (prevBtn && roundSelector) {
         prevBtn.addEventListener('click', () => {
             if (roundSelector.selectedIndex > 0) {
@@ -89,7 +81,7 @@ function initNavigation() {
         });
     }
 
-    // Control seguro de Flecha Derecha
+    
     if (nextBtn && roundSelector) {
         nextBtn.addEventListener('click', () => {
             if (roundSelector.selectedIndex < roundSelector.options.length - 1) {
@@ -100,9 +92,7 @@ function initNavigation() {
     }
 }
 
-/**
- * 2. Procesamiento de Fechas Híbridas (Soporta Strings y Números Seriales de Excel)
- */
+
 function parsearFechaExcel(fechaRaw, horaRaw) {
     let d;
     
@@ -135,11 +125,9 @@ function parsearFechaExcel(fechaRaw, horaRaw) {
     return d;
 }
 
-/**
- * 3. Carga e Inicialización de Datos del Excel
- */
+
 async function cargarDatosProde() {
-    // PROTECCIÓN: Si la página actual no tiene el contenedor de partidos (ej: ralfito.html), abortamos la carga
+    
     if (!document.getElementById('matches-container')) return;
 
     try {
@@ -208,9 +196,7 @@ function determinarRondaPorFecha() {
     return 'group-stage-3';
 }
 
-/**
- * 4. Renderizador de Boxes de Partidos
- */
+
 function renderizarRonda(roundId) {
     if (!prodeWorkbook) return;
 
@@ -256,12 +242,9 @@ function renderizarRonda(roundId) {
         }
     }
 
-    // Vaciamos el contenedor para empezar a dibujar
+    
     container.innerHTML = ''; 
-
-    // =========================================================================
-    // NUEVO: CÁLCULO DINÁMICO DE PUNTOS ACUMULADOS HASTA LA FASE SELECCIONADA
-    // =========================================================================
+    
     let acumLucas = 0;
     let acumTomas = 0;
     let faseLucas = 0;
@@ -277,11 +260,11 @@ function renderizarRonda(roundId) {
             const pL = parseFloat(row.lucas || 0);
             const pT = parseFloat(row.tomas || 0);
 
-            // Sumamos al acumulado histórico
+            
             acumLucas += pL;
             acumTomas += pT;
 
-            // Si llegamos a la ronda actual del filtro, guardamos los parciales y cortamos
+            
             if (rId === roundId) {
                 faseLucas = pL;
                 faseTomas = pT;
@@ -290,7 +273,6 @@ function renderizarRonda(roundId) {
         }
     }
 
-    // Inyectamos la tarjeta de puntuación global al inicio del contenedor
     const scorecardBox = document.createElement('div');
     scorecardBox.className = 'phase-scorecard';
     scorecardBox.innerHTML = `
@@ -307,9 +289,7 @@ function renderizarRonda(roundId) {
         </div>
     `;
     container.appendChild(scorecardBox);
-    // =========================================================================
-
-    // Continúa el renderizado normal de los partidos...
+    
     matches.forEach(m => {
         const idRaw = m.match_id !== undefined ? m.match_id : m['match-id'];
         if (idRaw === undefined) return;
