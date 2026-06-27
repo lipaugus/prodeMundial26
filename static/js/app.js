@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let prodeWorkbook = null;
-let teamCodesMap = {}; 
+let teamCodesMap = {};
 
 
 function normalizarNombreEquipo(nombre) {
@@ -25,11 +25,11 @@ function initNavigation() {
     const navLinks = document.querySelectorAll('.nav-links a');
     const sections = document.querySelectorAll('.view-section');
     const roundSelector = document.getElementById('roundSelector');
-    
+
     const prevBtn = document.getElementById('prevRoundBtn');
     const nextBtn = document.getElementById('nextRoundBtn');
 
-    
+
     if (menuToggle && navOverlay) {
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('open');
@@ -37,19 +37,19 @@ function initNavigation() {
         });
     }
 
-    
+
     const path = window.location.pathname;
     const estaEnIndex = path.endsWith('index.html') || path.endsWith('/') || !path.includes('.html');
 
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             const target = link.getAttribute('data-target');
-            
+
             if (estaEnIndex && target) {
                 const targetSection = document.getElementById(`view-${target}`);
                 if (targetSection) {
                     e.preventDefault();
-                    
+
                     navLinks.forEach(l => l.classList.remove('active'));
                     link.classList.add('active');
 
@@ -60,18 +60,18 @@ function initNavigation() {
                     targetSection.classList.add('active-view');
                 }
             }
-            
+
         });
     });
 
-    
+
     if (roundSelector) {
         roundSelector.addEventListener('change', (e) => {
             renderizarRonda(e.target.value);
         });
     }
 
-    
+
     if (prevBtn && roundSelector) {
         prevBtn.addEventListener('click', () => {
             if (roundSelector.selectedIndex > 0) {
@@ -81,7 +81,7 @@ function initNavigation() {
         });
     }
 
-    
+
     if (nextBtn && roundSelector) {
         nextBtn.addEventListener('click', () => {
             if (roundSelector.selectedIndex < roundSelector.options.length - 1) {
@@ -95,7 +95,7 @@ function initNavigation() {
 
 function parsearFechaExcel(fechaRaw, horaRaw) {
     let d;
-    
+
     if (typeof fechaRaw === 'number') {
         d = new Date(Math.round((fechaRaw - 25569) * 86400 * 1000));
     } else {
@@ -110,7 +110,7 @@ function parsearFechaExcel(fechaRaw, horaRaw) {
 
     let horas = 0;
     let minutos = 0;
-    
+
     if (typeof horaRaw === 'number') {
         const totalMinutes = Math.round(horaRaw * 24 * 60);
         horas = Math.floor(totalMinutes / 60);
@@ -127,15 +127,20 @@ function parsearFechaExcel(fechaRaw, horaRaw) {
 
 
 async function cargarDatosProde() {
-    
+
     if (!document.getElementById('matches-container')) return;
 
     try {
-        const response = await fetch('prode_data.xlsx');
-        if (!response.ok) throw new Error('No se pudo leer prode_data.xlsx');
-        
+        const SHEET_ID = '1QZDecj0_Azvu6zKxToICv4vUZjqOMfnHGzRlTLI3J3o';
+        const XLSX_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=xlsx`;
+
+        const response = await fetch(XLSX_URL);
+        if (!response.ok) throw new Error('No se pudo leer Google Sheets');
+
         const arrayBuffer = await response.arrayBuffer();
-        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+        const workbook = XLSX.read(arrayBuffer, {
+            type: 'array'
+        });
         prodeWorkbook = workbook;
 
         procesarCodigosEquipos();
@@ -143,7 +148,7 @@ async function cargarDatosProde() {
         const rondaActual = determinarRondaPorFecha();
         const selector = document.getElementById('roundSelector');
         if (selector) selector.value = rondaActual;
-        
+
         renderizarRonda(rondaActual);
 
     } catch (error) {
@@ -171,10 +176,10 @@ function procesarCodigosEquipos() {
 function determinarRondaPorFecha() {
     if (!prodeWorkbook) return 'group-stage-3';
     const sheet = prodeWorkbook.Sheets['points-table'];
-    if (!sheet) return 'group-stage-3'; 
+    if (!sheet) return 'group-stage-3';
 
     const data = XLSX.utils.sheet_to_json(sheet);
-    const ahora = new Date(); 
+    const ahora = new Date();
 
     for (let row of data) {
         const roundId = String(row.round || '').trim();
@@ -182,9 +187,9 @@ function determinarRondaPorFecha() {
 
         if (row.start_date) {
             const start = parsearFechaExcel(row.start_date, row.start_hour);
-            
+
             if (roundId === 'final-3rd-place') {
-                if (ahora >= start) return roundId; 
+                if (ahora >= start) return roundId;
             } else if (row.end_date) {
                 const end = parsearFechaExcel(row.end_date, row.end_hour);
                 if (ahora >= start && ahora <= end) {
@@ -205,7 +210,7 @@ function renderizarRonda(roundId) {
     const playerBlock = document.getElementById('player-picks-block');
     const container = document.getElementById('matches-container');
 
-    if (!container) return; 
+    if (!container) return;
 
     if (!matchSheet) {
         container.innerHTML = '<p class="loading-text">No hay partidos en esta ronda.</p>';
@@ -242,9 +247,9 @@ function renderizarRonda(roundId) {
         }
     }
 
-    
-    container.innerHTML = ''; 
-    
+
+    container.innerHTML = '';
+
     let acumLucas = 0;
     let acumTomas = 0;
     let faseLucas = 0;
@@ -260,11 +265,11 @@ function renderizarRonda(roundId) {
             const pL = parseFloat(row.lucas || 0);
             const pT = parseFloat(row.tomas || 0);
 
-            
+
             acumLucas += pL;
             acumTomas += pT;
 
-            
+
             if (rId === roundId) {
                 faseLucas = pL;
                 faseTomas = pT;
@@ -289,17 +294,17 @@ function renderizarRonda(roundId) {
         </div>
     `;
     container.appendChild(scorecardBox);
-    
+
     matches.forEach(m => {
         const idRaw = m.match_id !== undefined ? m.match_id : m['match-id'];
         if (idRaw === undefined) return;
-        
+
         const idStr = String(idRaw).trim();
         const timeInfo = horariosMap[idStr];
 
         const res1 = m.result_team_1;
         const res2 = m.result_team_2;
-        
+
         let centroHTML = '';
         let estado = 'antes';
 
@@ -323,7 +328,7 @@ function renderizarRonda(roundId) {
                 estado = 'antes';
                 const minFormato = String(timeInfo.min || 0).padStart(2, '0');
                 const esHoy = ahora.getDate() === parseInt(timeInfo.d) && (ahora.getMonth() + 1) === parseInt(timeInfo.m);
-                
+
                 if (esHoy) {
                     centroHTML = `
                         <span class="score-main">-</span>
@@ -387,3 +392,45 @@ function renderizarRonda(roundId) {
         container.appendChild(box);
     });
 }
+
+
+// Función para crear el botón flotante
+function inicializarBotonAutoScroll() {
+    
+    if (document.getElementById('btn-next-match')) return;
+
+    const btn = document.createElement('button');
+    btn.id = 'btn-next-match';
+    btn.title = 'Ir al próximo partido pendiente';
+    
+    
+    btn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612A.5.5 0 0 0 4.5 4.008v7.984a.5.5 0 0 0 .733.432L11.5 8.752V12a.5.5 0 0 0 1 0zM5.5 4.975 10.045 8 5.5 11.025z"/>
+        </svg>
+    `;
+
+    
+    btn.addEventListener('click', () => {
+        
+        const tarjetasPartidos = document.querySelectorAll('.match-box'); 
+        let encontrado = false;
+
+        for (let tarjeta of tarjetasPartidos) {
+            
+            if (!tarjeta.textContent.includes('FT')) {
+                tarjeta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                encontrado = true;
+                break; 
+            }
+        }
+        
+        if (!encontrado && tarjetasPartidos.length > 0) {
+            tarjetasPartidos[tarjetasPartidos.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+
+    document.body.appendChild(btn);
+}
+
+document.addEventListener('DOMContentLoaded', inicializarBotonAutoScroll);
