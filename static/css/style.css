@@ -379,9 +379,9 @@ body {
 
 
 .nav-arrow-btn:hover {
-  background-color: #242424;
+  background-color: #3b82f6;
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: #3b82f6;
   transform: translateY(-1px);
 }
 
@@ -461,7 +461,7 @@ body {
 
 
 
-/* Botón flotante */
+/* Botón flotante inteligente */
 #btn-next-match {
     position: fixed;
     bottom: 16px;
@@ -469,28 +469,36 @@ body {
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background: rgba(26, 26, 26, 0.75);
-    color: rgba(255, 255, 255, 0.6); 
+    background: rgba(26, 26, 26, 0.75); /* Fondo oscuro translúcido */
+    color: rgba(255, 255, 255, 0.6);   /* Icono gris claro sutil */
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 9999; 
+    z-index: 9999;
     backdrop-filter: blur(6px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     transition: all 0.2s ease-in-out;
+    
+    /* Elimina el recuadro gris/azul nativo que iOS le mete a los botones al tocarlos */
+    -webkit-tap-highlight-color: transparent; 
 }
 
-/* Efecto al pasar el mouse por encima */
-#btn-next-match:hover {
-    background: #3b82f6;  
-    color: #ffffff;        
-    border-color: #3b82f6;
-    transform: scale(1.08);  
+/* Para PC: El color azul se activa solo si el dispositivo tiene mouse */
+@media (hover: hover) {
+    #btn-next-match:hover {
+        background: #3b82f6;
+        color: #ffffff;
+        border-color: #3b82f6;
+        transform: scale(1.08);
+    }
 }
 
-/* Efecto de pulsación rápida al hacer click */
+/* Para todos: Efecto rápido y limpio al presionar */
 #btn-next-match:active {
-    transform: scale(0.95);
+    background: #3b82f6 !important;
+    color: #ffffff !important;
+    border-color: #3b82f6 !important;
+    transform: scale(0.92);
 }
