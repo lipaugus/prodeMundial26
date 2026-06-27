@@ -1,4 +1,50 @@
 
+const CRONOGRAMA_FASES = [
+    {
+        id: 'group-stage-1',
+        inicio: '2026-06-11T00:00:00-03:00',
+        fin: '2026-06-18T09:59:59-03:00'
+    },
+    {
+        id: 'group-stage-2',
+        inicio: '2026-06-18T10:00:00-03:00',
+        fin: '2026-06-24T09:59:59-03:00'
+    },
+    {
+        id: 'group-stage-3',
+        inicio: '2026-06-24T10:00:00-03:00',
+        fin: '2026-06-28T09:59:59-03:00'
+    },
+    {
+        id: 'round-of-32',
+        inicio: '2026-06-28T10:00:00-03:00',
+        fin: '2026-07-04T09:59:59-03:00'
+    },
+    {
+        id: 'round-of-16',
+        inicio: '2026-07-04T10:00:00-03:00',
+        fin: '2026-07-08T14:59:59-03:00'
+    },
+    {
+        id: 'quaterfinals',
+        inicio: '2026-07-08T15:00:00-03:00',
+        fin: '2026-07-13T14:59:59-03:00'
+    },
+    {
+        id: 'semifinals',
+        inicio: '2026-07-13T15:00:00-03:00',
+        fin: '2026-07-17T14:59:59-03:00'
+    },
+    {
+        id: 'final-3rd-place',
+        inicio: '2026-07-17T15:00:00-03:00',
+        fin: '2026-12-31T23:59:59-03:00'
+    }
+];
+
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     cargarDatosProde();
@@ -93,37 +139,6 @@ function initNavigation() {
 }
 
 
-function parsearFechaExcel(fechaRaw, horaRaw) {
-    let d;
-
-    if (typeof fechaRaw === 'number') {
-        d = new Date(Math.round((fechaRaw - 25569) * 86400 * 1000));
-    } else {
-        d = new Date(fechaRaw);
-        if (isNaN(d.getTime())) {
-            const parts = String(fechaRaw).split('/');
-            if (parts.length === 3) {
-                d = new Date(parts[2], parts[1] - 1, parts[0]);
-            }
-        }
-    }
-
-    let horas = 0;
-    let minutos = 0;
-
-    if (typeof horaRaw === 'number') {
-        const totalMinutes = Math.round(horaRaw * 24 * 60);
-        horas = Math.floor(totalMinutes / 60);
-        minutos = totalMinutes % 60;
-    } else if (horaRaw) {
-        const parts = String(horaRaw).split(':');
-        horas = parseInt(parts[0] || 0, 10);
-        minutos = parseInt(parts[1] || 0, 10);
-    }
-
-    d.setHours(horas, minutos, 0, 0);
-    return d;
-}
 
 
 async function cargarDatosProde() {
@@ -174,31 +189,26 @@ function procesarCodigosEquipos() {
 }
 
 function determinarRondaPorFecha() {
-    if (!prodeWorkbook) return 'group-stage-3';
-    const sheet = prodeWorkbook.Sheets['points-table'];
-    if (!sheet) return 'group-stage-3';
-
-    const data = XLSX.utils.sheet_to_json(sheet);
     const ahora = new Date();
 
-    for (let row of data) {
-        const roundId = String(row.round || '').trim();
-        if (!roundId || roundId.toLowerCase() === 'total') continue;
+    console.log("Hora local:", ahora.toString());
 
-        if (row.start_date) {
-            const start = parsearFechaExcel(row.start_date, row.start_hour);
+    for (const fase of CRONOGRAMA_FASES) {
+        const inicio = new Date(fase.inicio);
+        const fin = new Date(fase.fin);
 
-            if (roundId === 'final-3rd-place') {
-                if (ahora >= start) return roundId;
-            } else if (row.end_date) {
-                const end = parsearFechaExcel(row.end_date, row.end_hour);
-                if (ahora >= start && ahora <= end) {
-                    return roundId;
-                }
-            }
+        console.log(
+            `${fase.id}: ${inicio.toString()} -> ${fin.toString()}`
+        );
+
+        if (ahora >= inicio && ahora <= fin) {
+            console.log("Fase seleccionada:", fase.id);
+            return fase.id;
         }
     }
-    return 'group-stage-3';
+
+    console.warn("No se encontró ninguna fase activa.");
+    return CRONOGRAMA_FASES[0].id;
 }
 
 
