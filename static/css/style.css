@@ -25,7 +25,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-
 .main-header {
   position: fixed;
   top: 0;
@@ -75,7 +74,6 @@ body {
     opacity 0.3s ease;
 }
 
-
 .menu-toggle.open span:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
@@ -85,7 +83,6 @@ body {
 .menu-toggle.open span:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
 }
-
 
 .nav-overlay {
   position: fixed;
@@ -133,7 +130,6 @@ body {
   color: var(--text-main);
 }
 
-
 .main-content {
   margin-top: 60px;
   padding: 16px;
@@ -167,7 +163,6 @@ body {
   text-align: center;
 }
 
-
 .match-box {
   background-color: var(--bg-card);
   border-radius: 12px;
@@ -176,7 +171,6 @@ body {
   margin-bottom: 14px;
   width: 100%;
 }
-
 
 .match-top-row {
   display: grid;
@@ -233,14 +227,12 @@ body {
   font-weight: 600;
 }
 
-
 .match-divider {
   border: 0;
   height: 1px;
   background-color: var(--border-color);
   margin: 16px 0;
 }
-
 
 .match-predictions-block {
   display: flex;
@@ -272,7 +264,6 @@ body {
   color: var(--text-muted);
   text-align: right;
 }
-
 
 .card-placeholder {
   padding: 40px 0;
@@ -320,7 +311,6 @@ body {
   padding: 20px;
 }
 
-
 .round-selector-wrapper {
   display: flex;
   align-items: center;
@@ -331,7 +321,6 @@ body {
   width: 100%;
   padding: 0 10px;
 }
-
 
 #roundSelector {
   flex: 1;
@@ -358,7 +347,6 @@ body {
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
 }
 
-
 .nav-arrow-btn {
   background-color: #1a1a1a;
   color: rgba(255, 255, 255, 0.7);
@@ -377,7 +365,6 @@ body {
   user-select: none;
 }
 
-
 .nav-arrow-btn:hover {
   background-color: #3b82f6;
   color: #ffffff;
@@ -390,115 +377,148 @@ body {
   background-color: #141414;
 }
 
-
 .phase-scorecard {
-    background: var(--bg-card);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 14px 8px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 8px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
-
 
 .scorecard-player {
-    text-align: center;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-
 .scorecard-name {
-    display: block;
-    text-align: center;
-    color: #ffffff57;           
-    font-size: 0.95rem; 
-    font-weight: 600;  
-    margin: 0 0 4px 0;
-    padding: 0;
-    width: auto;           
+  display: block;
+  text-align: center;
+  color: #ffffff57;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  padding: 0;
+  width: auto;
 }
 
 .scorecard-total {
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: #ffffff;
-    display: block;
-    line-height: 1.1;
-    text-align: center;
-    margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  display: block;
+  line-height: 1.1;
+  text-align: center;
+  margin: 0;
 }
 
 .scorecard-total small {
-    font-size: 0.85rem;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
 }
-
 
 .scorecard-partial {
-    font-size: 0.75rem;
-    color: #48bb78; 
-    display: block;
-    margin-top: 4px;
-    font-weight: 500;
-    text-align: center;
+  font-size: 0.75rem;
+  color: #48bb78;
+  display: block;
+  margin-top: 4px;
+  font-weight: 500;
+  text-align: center;
 }
-
 
 .scorecard-divider {
-    width: 1px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.1);
+  width: 1px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
 }
-
-
-
-
 
 /* Botón flotante inteligente */
 #btn-next-match {
-    position: fixed;
-    bottom: 16px;
-    right: 30px;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: rgba(26, 26, 26, 0.75); /* Fondo oscuro translúcido */
-    color: rgba(255, 255, 255, 0.6);   /* Icono gris claro sutil */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 9999;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    transition: all 0.2s ease-in-out;
-    
-    /* Elimina el recuadro gris/azul nativo que iOS le mete a los botones al tocarlos */
-    -webkit-tap-highlight-color: transparent; 
+  position: fixed;
+  bottom: 16px;
+  right: 30px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(26, 26, 26, 0.75); /* Fondo oscuro translúcido */
+  color: rgba(255, 255, 255, 0.6); /* Icono gris claro sutil */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease-in-out;
+
+  /* Elimina el recuadro gris/azul nativo que iOS le mete a los botones al tocarlos */
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Para PC: El color azul se activa solo si el dispositivo tiene mouse */
 @media (hover: hover) {
-    #btn-next-match:hover {
-        background: #3b82f6;
-        color: #ffffff;
-        border-color: #3b82f6;
-        transform: scale(1.08);
-    }
+  #btn-next-match:hover {
+    background: #3b82f6;
+    color: #ffffff;
+    border-color: #3b82f6;
+    transform: scale(1.08);
+  }
 }
 
 /* Para todos: Efecto rápido y limpio al presionar */
 #btn-next-match:active {
-    background: #3b82f6 !important;
-    color: #ffffff !important;
-    border-color: #3b82f6 !important;
-    transform: scale(0.92);
+  background: #3b82f6 !important;
+  color: #ffffff !important;
+  border-color: #3b82f6 !important;
+  transform: scale(0.92);
+}
+
+.live-score {
+  color: var(--text-live);
+  animation: livePulse 1.8s ease-in-out infinite;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-live);
+  display: inline-block;
+  margin-right: 5px;
+  animation: livePulse 1.8s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0% {
+    opacity: 1;
+    filter: drop-shadow(0 0 2px #22c55e);
+  }
+
+  50% {
+    opacity: 0.45;
+    filter: drop-shadow(0 0 7px #22c55e);
+  }
+
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 2px #22c55e);
+  }
+}
+
+.match-meta-text.extra-time {
+  color: #facc15;
+  font-weight: 600;
+}
+
+.match-meta-text.extra-time {
+  color: #facc15;
+  font-weight: 600;
 }

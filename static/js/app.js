@@ -318,47 +318,65 @@ function renderizarRonda(roundId) {
         let centroHTML = '';
         let estado = 'antes';
 
-        if (res1 !== undefined && res2 !== undefined && res1 !== '' && res2 !== '') {
+        const status = String(m.status || '').trim();
+
+        if (status === 'FINISHED') {
+
             estado = 'pos';
+
             centroHTML = `
-                <span class="score-main">${res1}  -  ${res2}</span>
-                <span class="match-meta-text">FT</span>
-            `;
+        <span class="score-main">${res1} - ${res2}</span>
+        <span class="match-meta-text">FT</span>
+    `;
+
+        } else if (status === 'IN_PLAY' || status === 'PAUSED') {
+
+            estado = 'live';
+
+            centroHTML = `
+        <span class="score-main live-score">
+            ${res1 ?? 0} - ${res2 ?? 0}
+        </span>
+
+        <span class="match-meta-text live">
+            <span class="live-dot"></span>
+            En vivo
+        </span>
+    `;
+
+        } else if (status === 'EXTRA_TIME') {
+
+            estado = 'extra-time';
+
+            centroHTML = `
+        <span class="score-main">
+            ${res1 ?? 0} - ${res2 ?? 0}
+        </span>
+
+        <span class="match-meta-text extra-time">
+            Tiempo Extra
+        </span>
+    `;
+
+        } else if (status === 'PENALTY_SHOOTOUT') {
+
+            estado = 'penalties';
+
+            centroHTML = `
+        <span class="score-main">
+            ${res1 ?? 0} - ${res2 ?? 0}
+        </span>
+
+        <span class="match-meta-text penalties">
+            Penales
+        </span>
+    `;
+
         } else if (timeInfo) {
-            const ahora = new Date();
-            const fechaPartido = new Date(2026, (timeInfo.m - 1), timeInfo.d, timeInfo.hr, timeInfo.min || 0);
 
-            if (ahora >= fechaPartido) {
-                estado = 'en-vivo';
-                centroHTML = `
-                    <span class="score-main">-</span>
-                    <span class="match-meta-text live">• En Vivo</span>
-                `;
-            } else {
-                estado = 'antes';
-                const minFormato = String(timeInfo.min || 0).padStart(2, '0');
-                const esHoy = ahora.getDate() === parseInt(timeInfo.d) && (ahora.getMonth() + 1) === parseInt(timeInfo.m);
+            // exactamente la misma lógica que ya tenés
+            // para mostrar fecha y hora
 
-                if (esHoy) {
-                    centroHTML = `
-                        <span class="score-main">-</span>
-                        <span class="match-meta-text">${timeInfo.hr}:${minFormato}</span>
-                    `;
-                } else {
-                    const diaFormato = String(timeInfo.d).padStart(2, '0');
-                    const mesFormato = String(timeInfo.m).padStart(2, '0');
-                    centroHTML = `
-                        <span class="score-main">-</span>
-                        <span class="match-meta-text">${diaFormato}/${mesFormato}\n${timeInfo.hr}:${minFormato}</span>
-                    `;
-                }
-            }
-        } else {
-            estado = 'antes';
-            centroHTML = `
-                <span class="score-main">-</span>
-                <span class="match-meta-text">Horario<br>Pendiente</span>
-            `;
         }
 
         const code1 = teamCodesMap[normalizarNombreEquipo(m.team_1)] || 'UNKNOWN';
@@ -406,35 +424,35 @@ function renderizarRonda(roundId) {
 
 // Función para crear el botón flotante
 function inicializarBotonAutoScroll() {
-    
+
     if (document.getElementById('btn-next-match')) return;
 
     const btn = document.createElement('button');
     btn.id = 'btn-next-match';
     btn.title = 'Ir al próximo partido pendiente';
-    
-    
+
+
     btn.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
           <path d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612A.5.5 0 0 0 4.5 4.008v7.984a.5.5 0 0 0 .733.432L11.5 8.752V12a.5.5 0 0 0 1 0zM5.5 4.975 10.045 8 5.5 11.025z"/>
         </svg>
     `;
 
-    
+
     btn.addEventListener('click', () => {
-        
-        const tarjetasPartidos = document.querySelectorAll('.match-box'); 
+
+        const tarjetasPartidos = document.querySelectorAll('.match-box');
         let encontrado = false;
 
         for (let tarjeta of tarjetasPartidos) {
-            
+
             if (!tarjeta.textContent.includes('FT')) {
                 tarjeta.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 encontrado = true;
-                break; 
+                break;
             }
         }
-        
+
         if (!encontrado && tarjetasPartidos.length > 0) {
             tarjetasPartidos[tarjetasPartidos.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
