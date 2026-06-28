@@ -498,17 +498,14 @@ body {
 @keyframes livePulse {
   0% {
     opacity: 1;
-    filter: drop-shadow(0 0 2px #22c55e);
   }
 
   50% {
-    opacity: 0.45;
-    filter: drop-shadow(0 0 7px #22c55e);
+    opacity: 0.6;
   }
 
   100% {
     opacity: 1;
-    filter: drop-shadow(0 0 2px #22c55e);
   }
 }
 

@@ -13,11 +13,11 @@ const CRONOGRAMA_FASES = [
     {
         id: 'group-stage-3',
         inicio: '2026-06-24T10:00:00-03:00',
-        fin: '2026-06-28T09:59:59-03:00'
+        fin: '2026-06-28T12:59:59-03:00'
     },
     {
         id: 'round-of-32',
-        inicio: '2026-06-28T10:00:00-03:00',
+        inicio: '2026-06-28T13:00:00-03:00',
         fin: '2026-07-04T09:59:59-03:00'
     },
     {
@@ -378,12 +378,37 @@ function renderizarRonda(roundId) {
         </span>
     `;
 
+    console.log(idStr, status, timeInfo);
+
         } else if (timeInfo) {
 
-            // exactamente la misma lógica que ya tenés
-            // para mostrar fecha y hora
+    estado = 'antes';
 
-        }
+    const fecha = new Date(
+        2026,
+        Number(timeInfo.m) - 1,
+        Number(timeInfo.d),
+        Number(timeInfo.hr),
+        Number(timeInfo.min)
+    );
+
+    const fechaTexto = fecha.toLocaleDateString('es-AR', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short'
+    });
+
+    const horaTexto = fecha.toLocaleTimeString('es-AR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
+
+    centroHTML = `
+        <span class="match-date">${fechaTexto}</span>
+        <span class="match-time">${horaTexto}</span>
+    `;
+}
 
         const code1 = teamCodesMap[normalizarNombreEquipo(m.team_1)] || 'UNKNOWN';
         const code2 = teamCodesMap[normalizarNombreEquipo(m.team_2)] || 'UNKNOWN';
