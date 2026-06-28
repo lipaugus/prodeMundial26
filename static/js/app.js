@@ -339,7 +339,6 @@ function renderizarRonda(roundId) {
         </span>
 
         <span class="match-meta-text live">
-            <span class="live-dot"></span>
             En vivo
         </span>
     `;
