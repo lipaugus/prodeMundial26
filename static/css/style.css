@@ -492,8 +492,7 @@ body {
   border-radius: 50%;
   background: var(--text-live);
   display: inline-block;
-  margin-right: 5px;
-  animation: livePulse 1.8s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
 @keyframes livePulse {
@@ -520,5 +519,15 @@ body {
 
 .match-meta-text.extra-time {
   color: #facc15;
+  font-weight: 600;
+}
+
+.match-meta-text.live {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  color: var(--text-live);
   font-weight: 600;
 }
