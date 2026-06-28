@@ -336,7 +336,7 @@ function renderizarRonda(roundId) {
         <span class="match-meta-text">FT</span>
     `;
 
-        } else if (status === 'LIVE' || status === 'PAUSED') {
+        } else if (status === 'LIVE' || status === 'PAUSED' || status === "IN_PLAY") {
 
             estado = 'live';
 
