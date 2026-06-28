@@ -320,6 +320,13 @@ function renderizarRonda(roundId) {
 
         const status = String(m.status || '').trim();
 
+        console.log({
+        match: idStr,
+        status: m.status,
+        res1,
+        res2
+        });
+
         if (status === 'FINISHED') {
 
             estado = 'pos';
@@ -329,7 +336,7 @@ function renderizarRonda(roundId) {
         <span class="match-meta-text">FT</span>
     `;
 
-        } else if (status === 'IN_PLAY' || status === 'PAUSED') {
+        } else if (status === 'LIVE' || status === 'PAUSED') {
 
             estado = 'live';
 
